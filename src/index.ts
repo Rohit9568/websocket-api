@@ -1,11 +1,11 @@
-import express from "express";
-import { Server } from "socket.io";
+import express, { Express } from "express";
+import { Server, Socket } from "socket.io";
 import http from "http";
 import dotenv from "dotenv";
 
 dotenv.config();
 
-const app = express();
+const app: Express = express();
 const server = http.createServer(app);
 
 const io = new Server(server, {
@@ -16,21 +16,18 @@ const io = new Server(server, {
   },
 });
 
-io.on("connection", (socket) => {
-  console.log(`New client connected: ${socket.id}`);
-
-  socket.on("message", (message) => {
+io.on("connection", (socket: Socket) => {
+  socket.on("message", (message: any) => {
     const modifiedMessage = { ...message, owner: false };
     socket.emit("message", modifiedMessage);
   });
 
   socket.on("disconnect", () => {
-    console.log(`Client disconnected: ${socket.id}`);
+    console.log("User disconnected");
   });
 });
 
 const PORT = process.env.PORT || 3001;
-
 server.listen(PORT, () => {
-  console.log(`WebSocket Server running on port ${PORT}`);
+  console.log(`Server running on port ${PORT}`);
 });
