@@ -12,7 +12,7 @@ const app: Express = express();
 // Add CORS middleware
 app.use(
   cors({
-    origin: process.env.FRONTEND_URL || "*",
+    origin: "*",
     methods: ["GET", "POST"],
     credentials: true,
   })
@@ -34,7 +34,7 @@ app.use(
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: process.env.FRONTEND_URL || "*",
+    origin:  "*",
     methods: ["GET", "POST"],
     credentials: true,
   },
